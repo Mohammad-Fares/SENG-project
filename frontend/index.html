@@ -1,38 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ttr_cntr</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="main">
-        <div class="form_box " id="login_form">
-            <form action="#">
-                <h2>Login</h2>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" name="login">Login</button>
-                <p>Don't have an account? <a href="#">Register</a></p>
-            </form>
-        </div>
+      <div class="form_box" id="login_form">
+        <form action="#">
+          <h2>Login</h2>
+          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit" name="login">Login</button>
+          <p>Don't have an account? <a href="#" onclick="showForm('register_form')">Register</a></p>
+        </form>
+      </div>
 
-        <div class="form_box active" id="register_form">
-            <form action="#">
-                <h2>Register</h2>
-                <input type="text" name="name" placeholder="Name" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <select id="drop" name="role" required>
-                    <option value="">--Select Role--</option>
-                    <option value="student">Student</option>
-                    <option value="tutor">Tutor/Tuition center</option>
-                </select>
-                <button type="submit" name="register">Register</button>
-                <p>Already have an account? <a href="#">Login</a></p>
-            </form>
-        </div>
+      <div class="form_box active" id="register_form">
+        <form action="#">
+          <h2>Register</h2>
+          <input type="text" name="name" placeholder="Name" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <select id="drop" name="role" required>
+            <option value="">--Select Role--</option>
+            <option value="student">Student</option>
+            <option value="tutor">Tutor/Tuition center</option>
+          </select>
+          <button type="submit" name="register">Register</button>
+          <p>Already have an account? <a href="#" onclick="showForm('login_form')">Login</a></p>
+        </form>
+      </div>
     </div>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
