@@ -8,8 +8,8 @@ function regsubmit(){
     const selectedValue = selectElement.value;
 
     if (selectedValue === "student") {
-        console.log('1');
+        return 1;
     } else if (selectedValue === "tutor") {
-        console.log('2');
+        return 2;
     }
 }
