@@ -28,15 +28,16 @@
         <form action="#" onsubmit="regsubmit('dropdown')">
           <h2>Register</h2>
           <i class='bxl bx-spotify'></i> 
-          <input type="text" name="name" placeholder="Name" required />
-          <input type="email" name="email" placeholder="Email" required />
+          <input id="regName" type="text" name="name" placeholder="Name" required />
+          <input id="redEmail" type="email" name="email" placeholder="Email" required />
           <input
+            id="regPass"
             type="password"
             name="password"
             placeholder="Password"
             required
           />
-          <select id="dropdown" name="role" required>
+          <select id="regDropdown" name="role" required>
             <option value="">--Select Role--</option>
             <option value="student">Student</option>
             <option value="tutor">Tutor/Tuition center</option>

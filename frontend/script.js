@@ -3,8 +3,8 @@ function showForm(formId){
     document.getElementById(formId).classList.add("active");
 }
 
-function regsubmit(){
-    const selectElement = document.getElementById("dropdown");
+function regsubmit(){ /* i lowkey don't know if im gonna use this */
+    const selectElement = document.getElementById("regDropdown");
     const selectedValue = selectElement.value;
 
     if (selectedValue === "student") {
