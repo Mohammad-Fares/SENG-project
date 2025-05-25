@@ -2,7 +2,6 @@ const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
-const regsubmit = require(`./frontend/script.js`);
 const bcrypt = require('bcrypt');
 
 const app = express();
