@@ -21,7 +21,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
         db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
-            email TEXT,
+            email TEXT UNIQUE,
             password TEXT,
             role TEXT
         )`);
@@ -30,22 +30,37 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 app.post('/api/register', (req, res) => {
     const { name, email, password, role } = req.body;
+
     if (role !== "student" && role !==  "tutor") {
-        res.status(400).send('Bad request (04)')
+        res.status(400).send('Bad request ')
     }
 
-    bcrypt.hash(password, 10, (err, hashedPassword) => {
+    const checkEmailSql = `SELECT * FROM users WHERE email = ?`;
+
+    db.get(checkEmailSql, [email], (err, row) => {
         if (err) {
-            console.error('Error hashing password: (04)', err);
-            return res.status(500).send('Internal server error (04)');
+            console.error('Error verifying email uniqueness  :', err);
+            return res.status(500).send('Internal server error ');
         }
-        const sql = `INSERT INTO users (name, email, password, role) VALUES (?,?,?,?)`;
-        db.run(sql, [name, email, hashedPassword, role], function(err) {
+
+        if (row) {
+            return res.status(409).send('Email already registered, proceed to login');
+        }
+        
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
             if (err) {
-                console.error('Error inserting user data: (04)', err);
-                return res.status(500).send('Error inserting data (04)');
+                console.error('Error hashing password: ', err);
+                return res.status(500).send('Internal server error ');
             }
-            res.status(201).json({ id: this.lastID });
+            const sql = `INSERT INTO users (name, email, password, role) VALUES (?,?,?,?)`;
+            db.run(sql, [name, email, hashedPassword, role], function(err) {
+                if (err) {
+                    console.error('Error inserting user data: ', err);
+                    return res.status(500).send('Error inserting data ');
+                }
+                res.status(201).json({ id: this.lastID });
+            });
+
         });
     });
 });
@@ -71,7 +86,7 @@ app.post('/api/login', (req, res) => {
             }
 
             if (result) {
-                res.status(200).send('Login successful');
+                res.status(200).json({message: 'Login Successful', role: user.role});
             } else {
                 res.status(401).send('Invalid email or password');
             }

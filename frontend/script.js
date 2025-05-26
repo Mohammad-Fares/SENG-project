@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     JlogForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         const JlogEmail = document.getElementById('logEmail').value;
         const JlogPass = document.getElementById('logPass').value;
 
@@ -47,16 +48,25 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({email, password})
         })
+
         .then(response => {
             if (!response.ok) {
                 throw new Error('Login failed');
             }
-            return response.text();
+            return response.json();
         })
+
         .then(data => {
             console.log('Login successful:', data);
             alert('Login successful');
+            console.log(data.role)
+            if (data.role === "student") {
+                document.location.href = "/student.html";
+            } else if (data.role === 'tutor'){
+                window.location.href = "/tutor.html";
+            }
         })
+
         .catch(error => {
             console.error('Error:', error);
             alert('Login failed. Please try again');
