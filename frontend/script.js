@@ -40,7 +40,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function logUser(email, password) {
-
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email, password})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Login successful:', data);
+            alert('Login successful');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Login failed. Please try again');
+        });
     }
     
 });

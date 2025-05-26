@@ -30,7 +30,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 app.post('/api/register', (req, res) => {
     const { name, email, password, role } = req.body;
-    if (role != "student" || "tutor") {
+    if (role !== "student" && role !==  "tutor") {
         res.status(400).send('Bad request (04)')
     }
 
@@ -49,6 +49,36 @@ app.post('/api/register', (req, res) => {
         });
     });
 });
+
+app.post('/api/login', (req, res) => {
+    const { email, password } = req.body;
+
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    db.get(sql, [email], (err, user) => {
+        if (err) {
+            console.error('Error getting user:', err);
+            return res.status(500).send('Internal server error');
+        }
+
+        if (!user) {
+            return res.status(401).send('Invalid email or password');
+        }
+
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (err) {
+                console.error('Password comparison error:', err);
+                return res.status(500).send('Internal server error');
+            }
+
+            if (result) {
+                res.status(200).send('Login successful');
+            } else {
+                res.status(401).send('Invalid email or password');
+            }
+        });
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
