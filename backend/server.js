@@ -30,17 +30,20 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 app.post('/api/register', (req, res) => {
     const { name, email, password, role } = req.body;
+    if (role != "student" || "tutor") {
+        res.status(400).send('Bad request (04)')
+    }
 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
-            console.error('Error hashing password:', err);
-            return res.status(500).send('Internal server error');
+            console.error('Error hashing password: (04)', err);
+            return res.status(500).send('Internal server error (04)');
         }
         const sql = `INSERT INTO users (name, email, password, role) VALUES (?,?,?,?)`;
         db.run(sql, [name, email, hashedPassword, role], function(err) {
             if (err) {
-                console.error('Error inserting user data:', err);
-                return res.status(500).send('Error inserting data');
+                console.error('Error inserting user data: (04)', err);
+                return res.status(500).send('Error inserting data (04)');
             }
             res.status(201).json({ id: this.lastID });
         });

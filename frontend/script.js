@@ -6,6 +6,7 @@ function showForm(formId){
 
 document.addEventListener('DOMContentLoaded', () => {
     const JregForm = document.querySelector('.regForm');
+    const JlogForm = document.querySelector('.logForm')
     
 
     JregForm.addEventListener('submit', (e) => {
@@ -30,4 +31,17 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .catch(error => console.error('Error:', error));
     }
-})
+
+    JlogForm.addEventListener('submit', (e) => {
+        const JlogEmail = document.getElementById('logEmail').value;
+        const JlogPass = document.getElementById('logPass').value;
+
+        logUser(JlogEmail, JlogPass);
+    });
+
+    function logUser(email, password) {
+
+    }
+    
+});
+
