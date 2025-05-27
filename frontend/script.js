@@ -58,10 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         .then(data => {
             console.log('Login successful:', data);
-            alert('Login successful');
-            console.log(data.role)
             if (data.role === "student") {
-                document.location.href = "/student.html";
+                window.location.href = "/student.html";
             } else if (data.role === 'tutor'){
                 window.location.href = "/tutor.html";
             }
