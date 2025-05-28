@@ -1,8 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = 3000;
@@ -85,15 +88,20 @@ app.post('/api/login', (req, res) => {
                 return res.status(500).send('Internal server error');
             }
 
-            if (result) {
+            if (!result) {
                 res.status(200).json({message: 'Login Successful', role: user.role});
-            } else {
-                res.status(401).send('Invalid email or password');
-            }
+            };
+            const payload = {id: user.id, role: user.role};
+
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)
+            res.json({accessToken: accessToken})
         });
     });
 });
 
+function authenticateToken(req, res, next) {
+    cosnt authHeader = 
+}
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
