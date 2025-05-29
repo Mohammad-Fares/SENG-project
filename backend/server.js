@@ -15,6 +15,15 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+}
+
+function generateRefreshToken(user) {
+    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+}
+
+
 const dbPath = path.join(__dirname, 'database', 'users.db'); // Path to your SQLite database
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
@@ -73,34 +82,49 @@ app.post('/api/login', (req, res) => {
 
     const sql = `SELECT * FROM users WHERE email = ?`;
     db.get(sql, [email], (err, user) => {
-        if (err) {
-            console.error('Error getting user:', err);
-            return res.status(500).send('Internal server error');
-        }
-
-        if (!user) {
-            return res.status(401).send('Invalid email or password');
-        }
+        if (err || !user) return res.status(401).send('Invalid credentials');
 
         bcrypt.compare(password, user.password, (err, result) => {
-            if (err) {
-                console.error('Password comparison error:', err);
-                return res.status(500).send('Internal server error');
-            }
+            if (err || !result) return res.status(401).send('Invalid credentials');
 
-            if (!result) {
-                res.status(200).json({message: 'Login Successful', role: user.role});
-            };
-            const payload = {id: user.id, role: user.role};
+            const payload = { id: user.id, role: user.role };
 
-            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)
-            res.json({accessToken: accessToken})
+            const accessToken = generateAccessToken(payload);
+            const refreshToken = generateRefreshToken(payload);
+
+            res.status(200).json({
+                accessToken,
+                refreshToken,
+                role: user.role
+            });
         });
     });
 });
 
+app.post('/api/token', (req, res) => {
+    const { token } = req.body;
+
+    if (!token) return res.sendStatus(401);
+    if (!refreshTokens.includes(token)) return res.sendStatus(403);
+
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        const newAccessToken = generateAccessToken({ id: user.id, role: user.role });
+        res.json({ accessToken: newAccessToken });
+    });
+});
+
 function authenticateToken(req, res, next) {
-    cosnt authHeader = 
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
 }
 
 app.listen(port, () => {

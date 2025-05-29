@@ -56,13 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
 
-        .then(data => {
-            console.log('Login successful:', data);
-            if (data.role === "student") {
-                window.location.href = "/student.html";
-            } else if (data.role === 'tutor'){
-                window.location.href = "/tutor.html";
-            }
+         .then(data => {
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('refreshToken', data.refreshToken);
+
+        if (data.role === 'student') window.location.href = '/student.html';
+        else window.location.href = '/tutor.html';
         })
 
         .catch(error => {
