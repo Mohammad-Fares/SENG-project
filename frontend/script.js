@@ -57,12 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
          .then(data => {
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('name', data.name); // ← Store name
 
-        if (data.role === 'student') window.location.href = '/student.html';
-        else window.location.href = '/tutor.html';
-        })
+            if (data.role === 'student') window.location.href = '/student.html';
+            else window.location.href = '/tutor.html';
+})
+
 
         .catch(error => {
             console.error('Error:', error);

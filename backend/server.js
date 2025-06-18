@@ -37,6 +37,17 @@ const db = new sqlite3.Database(dbPath, (err) => {
             password TEXT,
             role TEXT
         )`);
+        db.run(`CREATE TABLE IF NOT EXISTS students (
+            student_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        )`);
+
+        db.run(`CREATE TABLE IF NOT EXISTS tutors (
+            tutor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        )`);
     }
 });
 
@@ -68,9 +79,21 @@ app.post('/api/register', (req, res) => {
             db.run(sql, [name, email, hashedPassword, role], function(err) {
                 if (err) {
                     console.error('Error inserting user data: ', err);
-                    return res.status(500).send('Error inserting data ');
+                    return res.status(500).send('Error inserting data');
                 }
-                res.status(201).json({ id: this.lastID });
+
+                const userId = this.lastID;
+                const roleTable = role === 'student' ? 'students' : 'tutors';
+                const roleSql = `INSERT INTO ${roleTable} (user_id) VALUES (?)`;
+                
+                db.run(roleSql, [userId], function(roleErr) {
+                    if (roleErr) {
+                        console.error(`Error inserting into ${roleTable} table: `, roleErr);
+                        return res.status(500).send(`Error creating ${role} profile`);
+                    }
+
+                    res.status(201).json({ id: userId, role });
+                });
             });
 
         });
@@ -95,7 +118,8 @@ app.post('/api/login', (req, res) => {
             res.status(200).json({
                 accessToken,
                 refreshToken,
-                role: user.role
+                role: user.role,
+                name: user.name
             });
         });
     });
