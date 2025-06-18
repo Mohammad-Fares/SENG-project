@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
          .then(data => {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
-            localStorage.setItem('name', data.name); // ← Store name
+            localStorage.setItem('name', data.name); 
 
             if (data.role === 'student') window.location.href = '/student.html';
             else window.location.href = '/tutor.html';
