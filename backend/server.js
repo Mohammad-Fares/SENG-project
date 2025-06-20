@@ -163,6 +163,28 @@ app.post('/create-post', authenticateToken, (req, res) => {
     });
 });
 
+app.get('/api/posts', (req, res) => {
+    const sql = `SELECT posts.*, users.name as tutor_name
+                 FROM posts
+                 JOIN tutors ON posts.tutorID = tutors.tutor_id
+                 JOIN users ON tutors.user_id = users.id`;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            console.error('Error fetching posts:', err.message);
+            return res.status(500).json({ error: 'Failed to retrieve posts' });
+        }
+
+        res.json(rows);
+    });
+});
+
+
+app.get('/get-posts', authenticateToken, (req, res) => {
+    if (req.user.role !== "student") return res.status(403).send("Access denied");
+
+})
+
 app.get('/session', authenticateToken, (req, res) => {
     if (req.user.role !== "tutor") return res.status(403).send("Access denied");
 

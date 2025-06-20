@@ -1,1 +1,1 @@
-DROP TABLE tutors
+delete from posts where name = "gooning"

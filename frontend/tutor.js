@@ -26,18 +26,6 @@ document.getElementById('tutorPostForm').addEventListener('submit', async (e) =>
       },
       body: JSON.stringify(postData)
     });
-
-    const messageElement = document.getElementById('statusMessage');
-    if (res.ok) {
-      const text = await res.text();
-      messageElement.style.color = 'green';
-      messageElement.textContent = text;
-      document.getElementById('tutorPostForm').reset();
-    } else {
-      const errorText = await res.text();
-      messageElement.style.color = 'red';
-      messageElement.textContent = 'Error: ' + errorText;
-    }
   } catch (err) {
     console.error('Network error:', err);
     alert('Something went wrong.');
