@@ -1,1 +1,1 @@
-delete from posts where name = "gooning"
+delete from posts where name = "art"

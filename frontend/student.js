@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
+  
   fetch('/api/posts')
     .then(response => response.json())
     .then(posts => {
@@ -27,10 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <p><strong>Bio:</strong> ${escapeHtml(post.bio) || 'N/A'}</p>
           <p><strong>Email:</strong> ${escapeHtml(post.email) || 'N/A'}</p>
           <p><strong>Phone:</strong> ${escapeHtml(post.phone) || 'N/A'}</p>
-          <p><strong>Rating:</strong> ${escapeHtml(post.rating?.toString()) || 'N/A'} ⭐</p>
+          <p><strong>Rating:</strong> ${"★".repeat(post.rating)}${"☆".repeat(5-post.rating)}</p>
           <p><strong>Price/hr:</strong> $${escapeHtml(post.pricePerHour?.toFixed(2)) || 'N/A'}</p>
           <p><strong>Location:</strong> ${escapeHtml(post.location) || 'N/A'}</p>
           <p><strong>Time Slot:</strong> ${escapeHtml(post.timeSlot) || 'N/A'}</p>
+          <div class="center"><button class="add-tutor"><p>⁺</p></button></div>
         `;
         container.appendChild(card);
       });
