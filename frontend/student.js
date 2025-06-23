@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+  function escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
   fetch('/api/posts')
     .then(response => response.json())
     .then(posts => {
@@ -14,15 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <h2>${post.name}</h2>
-          <p><strong>Tutor:</strong> ${post.tutor_name}</p>
-          <p><strong>Bio:</strong> ${post.bio || 'N/A'}</p>
-          <p><strong>Email:</strong> ${post.email || 'N/A'}</p>
-          <p><strong>Phone:</strong> ${post.phone || 'N/A'}</p>
-          <p><strong>Rating:</strong> ${post.rating || 'N/A'} ⭐</p>
-          <p><strong>Price/hr:</strong> $${post.pricePerHour?.toFixed(2) || 'N/A'}</p>
-          <p><strong>Location:</strong> ${post.location || 'N/A'}</p>
-          <p><strong>Time Slot:</strong> ${post.timeSlot || 'N/A'}</p>
+          <h2>${escapeHtml(post.name)}</h2>
+          <p><strong>Tutor:</strong> ${escapeHtml(post.tutor_name)}</p>
+          <p><strong>Bio:</strong> ${escapeHtml(post.bio) || 'N/A'}</p>
+          <p><strong>Email:</strong> ${escapeHtml(post.email) || 'N/A'}</p>
+          <p><strong>Phone:</strong> ${escapeHtml(post.phone) || 'N/A'}</p>
+          <p><strong>Rating:</strong> ${escapeHtml(post.rating?.toString()) || 'N/A'} ⭐</p>
+          <p><strong>Price/hr:</strong> $${escapeHtml(post.pricePerHour?.toFixed(2)) || 'N/A'}</p>
+          <p><strong>Location:</strong> ${escapeHtml(post.location) || 'N/A'}</p>
+          <p><strong>Time Slot:</strong> ${escapeHtml(post.timeSlot) || 'N/A'}</p>
         `;
         container.appendChild(card);
       });
