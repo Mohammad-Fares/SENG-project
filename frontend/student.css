@@ -158,3 +158,8 @@ button:hover {
   margin-bottom: 1rem;
   margin-right: 1rem;
 }
+
+.icon {
+  padding: 0rem 1rem;
+  transform: translateY(2px);
+}
