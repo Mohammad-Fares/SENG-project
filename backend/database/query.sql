@@ -1,1 +1,1 @@
-delete from posts where name = "art"
+drop table posts
