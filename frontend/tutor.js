@@ -118,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
       })
       .then(posts => {
-        console.log('Tutor posts:', posts);
         const container = document.getElementById('postContainer');
         container.innerHTML = ''; 
 

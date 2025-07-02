@@ -250,6 +250,7 @@ app.delete('/api/posts/:postId', authenticateToken, (req, res) => {
     });
 });
 
+// add post to saved_posts with + button
 app.post('/api/save-post', authenticateToken, (req, res) => {
     const { postId } = req.body;
     
