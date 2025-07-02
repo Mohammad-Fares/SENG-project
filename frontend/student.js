@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } finally {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('name');
         window.location.href = '/index.html';
         location.reload();
       }

@@ -159,7 +159,7 @@ function getStudentIDFromUserID(userID, callback) {
     });
 }
 
-app.post('/create-post', authenticateToken, (req, res) => {
+app.post('/api/create-post', authenticateToken, (req, res) => {
     const { name, bio, email, phone, rating, pricePerHour, location, timeSlot } = req.body;
     const userID = req.user.id;
 

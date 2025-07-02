@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const JlogPass = document.getElementById('logPass').value;
 
         logUser(JlogEmail, JlogPass);
+        JlogForm.reset();
     });
 
     function logUser(email, password) {
@@ -59,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
          .then(data => {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
-            localStorage.setItem('name', data.name); 
 
             if (data.role === 'student') window.location.href = '/student.html';
             else window.location.href = '/tutor.html';

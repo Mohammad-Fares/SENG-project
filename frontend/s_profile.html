@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="student.css" />
+    <link rel="stylesheet" href="s_profile.css" />
 </head>
 
 <body>
@@ -13,7 +13,7 @@
         <div class="sidebar">
             <div class="nav">
                 <ul>
-                    <li class="list active">
+                    <li class="list">
                         <a href="student.html">
                             <span class="icon">
                                 <ion-icon name="home-outline"></ion-icon>
@@ -21,7 +21,7 @@
                             <span class="text">Home page</span>
                         </a>
                     </li>
-                    <li class="list">
+                    <li class="list active">
                         <a href="s_profile.html">
                             <span class="icon">
                                 <ion-icon name="person-outline"></ion-icon>
@@ -35,12 +35,12 @@
 
         <div class="content">
             <button id="logoutBtn" class="logout-btn">Log Out</button>
-            <h1>Available Tutors</h1>
+            <h1>Your Tutors</h1>
             <div id="postContainer" class="card-container"></div>
         </div>
     </div>
 
-    <script src="student.js"></script>
+    <script src="s_profile.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

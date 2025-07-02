@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } finally {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('name');
         window.location.href = '/index.html';
         location.reload();
       }
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const res = await fetch('/create-post', {
+      const res = await fetch('/api/create-post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
