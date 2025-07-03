@@ -162,3 +162,37 @@ button:hover {
 .endorse-post{
   transform: translatex(128px);
 }
+
+.home-btn{
+  display: none;
+}
+
+@media only screen and (max-width: 900px) {
+  .card-container{
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar{
+    display: none;
+  }
+
+  .content{
+    margin: 0;
+  }
+
+  .logout-btn {
+    position: relative;
+    transform: translateX(3rem);
+    margin-bottom: 1rem;
+  }
+
+  .home-btn{
+    position: relative;
+    transform: translate(3rem, 1rem);
+    display: inline;
+  }
+
+  .home-link{
+    text-decoration: none;
+  }
+}

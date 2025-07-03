@@ -170,5 +170,25 @@ form button {
   margin-right: 1rem;
 }
 
+@media only screen and (max-width: 600px) {
+  .card-container{
+    grid-template-columns: 1fr;
+  }
 
+  .sidebar{
+    display: none;
+  }
+
+  .content{
+    margin: 0;
+  }
+
+  .logout-btn {
+    position: relative;
+    transform: translateX(1rem);
+    margin-bottom: 1rem;
+    max-width: fit-content;
+  }
+
+}
 
