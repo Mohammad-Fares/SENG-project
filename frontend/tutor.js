@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
       bio: document.getElementById('bio').value,
       email: document.getElementById('email').value,
       phone: document.getElementById('phone').value,
-      rating: parseFloat(document.getElementById('rating').value),
       pricePerHour: parseFloat(document.getElementById('pricePerHour').value),
       location: document.getElementById('location').value,
       timeSlot: document.getElementById('timeSlot').value
@@ -134,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><strong>Bio:</strong> ${escapeHtml(post.bio)}</p>
             <p><strong>Email:</strong> ${escapeHtml(post.email)}</p>
             <p><strong>Phone:</strong> ${escapeHtml(post.phone)}</p>
-            <p><strong>Rating:</strong> ${"★".repeat(post.rating)}${"☆".repeat(5-post.rating)}</p>
+            <p><strong>Endorsements:</strong> ${escapeHtml(post.rating)}</p>
             <p><strong>Price/hr:</strong> $${post.pricePerHour ? post.pricePerHour.toFixed(2) : 'N/A'}</p>
             <p><strong>Location:</strong> ${escapeHtml(post.location)}</p>
             <p><strong>Time Slot:</strong> ${escapeHtml(post.timeSlot)}</p>

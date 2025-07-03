@@ -37,6 +37,36 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
+  async function endorsePost(postId) {
+    if (!confirm("Are you sure you want to endorse this post?")) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/endorse-post/`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + token,
+        },
+        body: JSON.stringify({
+          'postId': postId
+        })
+      });
+
+      if (res.ok) {
+        alert("Post endorsed successfully!");
+        loadSavedPosts();
+      } else {
+        const errorText = await res.text();
+        alert("Error endorsing post: " + errorText);
+      }
+    } catch (err) {
+      console.error("Error endorsing post:", err);
+      alert("Failed to endorse post.");
+    }
+  }
+
   async function deletePost(postId) {
     if (!confirm("Are you sure you want to delete this post?")) {
       return;
@@ -46,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(`/api/saved-posts/${postId}`, {
         method: "DELETE",
         headers: {
-          Authorization: "Bearer " + token,
+          'Authorization': "Bearer " + token,
         },
       });
 
@@ -66,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadSavedPosts() {
     fetch("/api/saved-posts", {
       headers: {
-        Authorization: "Bearer " + token,
+        'Authorization': "Bearer " + token,
       },
     })
       .then((response) => {
@@ -95,14 +125,17 @@ document.addEventListener("DOMContentLoaded", () => {
             <p><strong>Bio:</strong> ${escapeHtml(post.bio)}</p>
             <p><strong>Email:</strong> ${escapeHtml(post.email)}</p>
             <p><strong>Phone:</strong> ${escapeHtml(post.phone)}</p>
-            <p><strong>Rating:</strong> ${"★".repeat(post.rating)}${"☆".repeat(
-            5 - post.rating
-          )}</p>
+            <p><strong>Endorsements:</strong> ${escapeHtml(post.rating)}</p>
             <p><strong>Price/hr:</strong> $${
               post.pricePerHour ? post.pricePerHour.toFixed(2) : "N/A"
             }</p>
             <p><strong>Location:</strong> ${escapeHtml(post.location)}</p>
             <p><strong>Time Slot:</strong> ${escapeHtml(post.timeSlot)}</p>
+            <div class="center">
+              <button class="endorse-post" data-post-id="${post.postID}">
+                <p>Endorse Tutor</p>
+              </button>
+            </div>
             <div class="center">
               <button class="remove-post" data-post-id="${post.postID}">
                 <p>Delete Post</p>
@@ -118,6 +151,15 @@ document.addEventListener("DOMContentLoaded", () => {
               .closest(".remove-post")
               .getAttribute("data-post-id");
             deletePost(postId);
+          });
+        });
+
+        document.querySelectorAll(".endorse-post").forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const postId = e.target
+              .closest(".endorse-post")
+              .getAttribute("data-post-id");
+            endorsePost(postId);
           });
         });
       })

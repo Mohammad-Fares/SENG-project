@@ -1,1 +1,1 @@
-drop table posts
+drop table saved_posts

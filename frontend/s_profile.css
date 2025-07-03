@@ -126,6 +126,18 @@ button:hover {
   background-color: var(--bronze-600);
 }
 
+
+.icon {
+  padding: 0rem 1rem;
+  transform: translateY(2px);
+}
+
+.logout-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
 .card-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -138,34 +150,15 @@ button:hover {
   background-color: var(--bronze-200);
   margin: 1rem 1rem ;
   border-radius: 1rem;
-  padding: 1rem 1rem;
+  padding: 1rem 1rem 5rem 1rem;
 }
 
-.center button p{
-  transform: translateY(-20%);
-}
-
-.add-tutor {
-  height: 3rem;
-  width: 3rem;
-  font-size: 3em;
-  font-weight: 600;
-  border-radius: 100vh;
-  text-align: center;
+.center button {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-top: 1rem;
+  bottom: 1rem;
 }
 
-.icon {
-  padding: 0rem 1rem;
-  transform: translateY(2px);
-}
-
-.logout-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+.endorse-post{
+  transform: translatex(128px);
 }

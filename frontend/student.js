@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><strong>Bio:</strong> ${escapeHtml(post.bio) || 'N/A'}</p>
             <p><strong>Email:</strong> ${escapeHtml(post.email) || 'N/A'}</p>
             <p><strong>Phone:</strong> ${escapeHtml(post.phone) || 'N/A'}</p>
-            <p><strong>Rating:</strong> ${"★".repeat(post.rating)}${"☆".repeat(5 - post.rating)}</p>
+            <p><strong>Endorsements:</strong> ${escapeHtml(post.rating)}</p>
             <p><strong>Price/hr:</strong> $${escapeHtml(post.pricePerHour?.toFixed(2)) || 'N/A'}</p>
             <p><strong>Location:</strong> ${escapeHtml(post.location) || 'N/A'}</p>
             <p><strong>Time Slot:</strong> ${escapeHtml(post.timeSlot) || 'N/A'}</p>

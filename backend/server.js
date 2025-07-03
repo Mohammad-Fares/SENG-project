@@ -52,7 +52,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
             bio TEXT,
             email TEXT,
             phone TEXT,
-            rating REAL CHECK(rating >= 0 AND rating <= 5),
+            rating INTEGER,
             pricePerHour REAL,
             location TEXT,
             timeSlot TEXT,
@@ -160,7 +160,7 @@ function getStudentIDFromUserID(userID, callback) {
 }
 
 app.post('/api/create-post', authenticateToken, (req, res) => {
-    const { name, bio, email, phone, rating, pricePerHour, location, timeSlot } = req.body;
+    const { name, bio, email, phone, pricePerHour, location, timeSlot } = req.body;
     const userID = req.user.id;
 
     if (req.user.role !== "tutor") return res.status(403).send("Only tutors can create posts");
@@ -170,8 +170,8 @@ app.post('/api/create-post', authenticateToken, (req, res) => {
 
         db.run(`
             INSERT INTO posts (tutorID, name, bio, email, phone, rating, pricePerHour, location, timeSlot)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [tutorID, name, bio, email, phone, rating, pricePerHour, location, timeSlot],
+            VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?)`,
+            [tutorID, name, bio, email, phone, pricePerHour, location, timeSlot],
             function (err) {
                 if (err) {
                     console.error(err.message);
@@ -329,6 +329,35 @@ app.delete('/api/saved-posts/:postId', authenticateToken, (req, res) => {
         });
     });
 });
+
+app.post('/api/endorse-post', authenticateToken, (req, res) => {
+    const { postId } = req.body;
+
+    if (req.user.role !== "student") return res.status(403).send("Only students can save posts");
+
+    getStudentIDFromUserID(req.user.id, (studentID) => {
+        if (!studentID) return res.status(404).send("Student profile not found");
+
+        db.get("SELECT * FROM posts WHERE postID = ?", [postId], (err, post) => {
+            if (err) {
+                console.error('Error checking post:', err.message);
+                return res.status(500).send("Database error");
+            }
+            
+            if (!post) {
+                return res.status(404).send("Post not found");
+            }
+
+            db.run("UPDATE posts SET rating = rating +1 WHERE postID = ?", [postId], function(err) {
+                if (err) {
+                    console.error('Error endorsing post:', err.message);
+                    return res.status(500).send("Failed to endorse post");
+                }
+                res.json({ message: "Post endorsed successfully" });
+            });
+        });
+    });
+})
 
 app.get('/session', authenticateToken, (req, res) => {
     if (req.user.role !== "tutor") return res.status(403).send("Access denied");
