@@ -72,6 +72,18 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 app.post('/api/register', (req, res) => {
     const { name, email, password, role } = req.body;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,20}$/;
+
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: "Invalid email format!" });
+    }
+
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+        error: "Invalid password format."
+        });
+    }
 
     if (role !== "student" && role !==  "tutor") {
         return res.status(400).send('Bad request ');

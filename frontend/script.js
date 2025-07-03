@@ -16,8 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const JregPass = document.getElementById('regPass').value;
         const JregDropdown = document.getElementById('regDropdown').value;
 
-        regUser(JregName, JregEmail, JregPass, JregDropdown);
-        JregForm.reset();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,20}$/;
+
+        if (emailRegex.test(JregEmail)) {
+            if (passwordRegex.test(JregPass)) {
+                regUser(JregName, JregEmail, JregPass, JregDropdown);
+                JregForm.reset();
+            } else {
+                alert('register failed, invalid password, require at least 1 uppercase, 1 lowercase and 1 number, between 8 and 20 characters');
+            }          
+        } else {
+            alert('register failed, invalid email require at ####@##.com format')
+        }
+
     });
 
     function regUser(name, email, password, role) {
@@ -37,8 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const JlogEmail = document.getElementById('logEmail').value;
         const JlogPass = document.getElementById('logPass').value;
 
-        logUser(JlogEmail, JlogPass);
-        JlogForm.reset();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,20}$/;
+
+        if (emailRegex.test(JlogEmail)) {
+            if (passwordRegex.test(JlogPass)) {
+                logUser(JlogEmail, JlogPass);
+                JlogForm.reset();
+            } else {
+                alert('login failed, invalid password, require at least 1 uppercase, 1 lowercase and 1 number, between 8 and 20 characters');
+            }          
+        } else {
+            alert('login failed, invalid email require at ####@##.com format')
+        }
+
     });
 
     function logUser(email, password) {

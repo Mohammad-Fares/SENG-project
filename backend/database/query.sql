@@ -1,1 +1,1 @@
-drop table saved_posts
+drop table tutors
